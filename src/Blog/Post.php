@@ -2,17 +2,19 @@
 
 namespace GeekBrains\LevelTwo\Blog;
 
+use GeekBrains\LevelTwo\Blog\UUID;
+
 class Post
 {
-    private int $id;
-    private int $user_id;
+    private UUID $id;
+    private UUID $user_id;
     private string $heading;
     private string $text;
 
-    public function __construct(int $id, User $user, string $heading, string $text)
+    public function __construct(UUID $id, UUID $user_id, string $heading, string $text)
     {
         $this->id = $id;
-        $this->user_id = $user->getId();
+        $this->user_id = $user_id;
         $this->heading = $heading;
         $this->text = $text;
     }
@@ -27,7 +29,7 @@ class Post
     /**
      * Get the value of id
      */ 
-    public function getId(): int
+    public function getId(): UUID
     {
         return $this->id;
     }
@@ -43,7 +45,7 @@ class Post
     /**
      * Get the value of user_id
      */ 
-    public function getUser_id(): int
+    public function getUser_id(): UUID
     {
         return $this->user_id;
     }

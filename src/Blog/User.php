@@ -5,7 +5,8 @@ namespace GeekBrains\LevelTwo\Blog;
 class User
 {
     public function __construct(
-        private int $id,
+        private UUID $id,
+        private string $username,
         private string $name,
         private string $surname,
     )
@@ -35,8 +36,16 @@ class User
         /**
          * Get the value of id
          */ 
-        public function getId(): int
+        public function getId(): UUID
         {
                 return $this->id;
+        }
+
+        /**
+         * Get the value of username
+         */ 
+        public function getUsername()
+        {
+                return $this->username;
         }
 }
