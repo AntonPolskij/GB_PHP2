@@ -9,4 +9,5 @@ interface CommentsRepositoryInterface {
     public function save(Comment $comment): void ;
 
     public function get(UUID $id): ?Comment;
+
 }

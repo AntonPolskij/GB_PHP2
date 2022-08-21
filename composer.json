@@ -13,7 +13,8 @@
     ],
     "require": {
         "symfony/polyfill-uuid": "^1.26",
-        "php-kit/ext-pdo": "^1.1"
+        "php-kit/ext-pdo": "^1.1",
+        "psr/container": "^2.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",

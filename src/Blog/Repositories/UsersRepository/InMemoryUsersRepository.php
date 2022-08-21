@@ -4,7 +4,7 @@ namespace GeekBrains\LevelTwo\Blog\Repositories\UsersRepository;
 
 use GeekBrains\LevelTwo\Blog\User;
 use GeekBrains\LevelTwo\Blog\UUID;
-use GeekBrains\LevelTwo\Blog\Exceptions\UserNotFoundException;
+use GeekBrains\LevelTwo\Exceptions\UserNotFoundException;
 
 
 class InMemoryUsersRepository implements UsersRepositoryInterface

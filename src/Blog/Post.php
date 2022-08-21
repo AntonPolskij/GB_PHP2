@@ -6,17 +6,13 @@ use GeekBrains\LevelTwo\Blog\UUID;
 
 class Post
 {
-    private UUID $id;
-    private UUID $user_id;
-    private string $heading;
-    private string $text;
 
-    public function __construct(UUID $id, UUID $user_id, string $heading, string $text)
-    {
-        $this->id = $id;
-        $this->user_id = $user_id;
-        $this->heading = $heading;
-        $this->text = $text;
+    public function __construct(
+        private UUID   $id,
+        private User   $user,
+        private string $heading,
+        private string $text,
+    ) {
     }
 
     public function __toString(): string
@@ -47,7 +43,7 @@ class Post
      */ 
     public function getUser_id(): UUID
     {
-        return $this->user_id;
+        return $this->user->getId();
     }
 
     /**

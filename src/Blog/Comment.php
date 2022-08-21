@@ -4,17 +4,14 @@ namespace GeekBrains\LevelTwo\Blog;
 
 class Comment
 {
-    private UUID $id;
-    private UUID $user_id;
-    private UUID $post_id;
-    private string $text;
 
-    public function __construct(UUID $id, UUID $user_id, UUID $post_id, string $text)
+    public function __construct(
+        private UUID $id,
+        private User $user,
+        private Post $post,
+        private string $text,
+    )
     {
-        $this->id = $id;
-        $this->user_id = $user_id;
-        $this->post_id = $post_id;
-        $this->text = $text;
     }
 
 
@@ -35,7 +32,7 @@ class Comment
      */ 
     public function getUser_id(): UUID
     {
-        return $this->user_id;
+        return $this->user->getId();
     }
 
     /**
@@ -43,7 +40,7 @@ class Comment
      */ 
     public function getPost_id(): UUID
     {
-        return $this->post_id;
+        return $this->post->getId();
     }
 
     /**

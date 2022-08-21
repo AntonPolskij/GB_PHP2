@@ -1,13 +1,13 @@
 <?php
 
-namespace GeekBrains\LevelTwo\test\Repositories;
+namespace GeekBrains\LevelTwo\tests\Repositories;
 
 use PDO;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;
 use GeekBrains\LevelTwo\Blog\Comment;
 use GeekBrains\LevelTwo\Blog\UUID;
-use GeekBrains\LevelTwo\Blog\Exceptions\CommentNotFoundException;
+use GeekBrains\LevelTwo\Exceptions\CommentNotFoundException;
 use GeekBrains\LevelTwo\Blog\Repositories\CommentsRepository\SqliteCommentsRepository;
 
 class SqliteCommentsRepositoryTest extends TestCase

@@ -1,13 +1,13 @@
 <?php
 
-namespace GeekBrains\LevelTwo\test\Repositories;
+namespace GeekBrains\LevelTwo\tests\Repositories;
 
 use PDO;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;
 use GeekBrains\LevelTwo\Blog\Post;
 use GeekBrains\LevelTwo\Blog\UUID;
-use GeekBrains\LevelTwo\Blog\Exceptions\PostNotFoundException;
+use GeekBrains\LevelTwo\Exceptions\PostNotFoundException;
 use GeekBrains\LevelTwo\Blog\Repositories\PostsRepository\SqlitePostsRepository;
 
 class SqlitePostsRepositoryTest extends TestCase

@@ -1,0 +1,8 @@
+POST http://127.0.0.1:8000/posts/create
+
+{
+    "user_id": "0ae45b27-b306-4271-a85d-02247adb3ee9",
+    "heading": "sdasdqweq",
+    "text": "asdqwe"
+}
+
