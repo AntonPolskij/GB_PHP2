@@ -1,8 +1,7 @@
-POST http://127.0.0.1:8000/posts/create
+POST http://127.0.0.1:8000/posts/like
 
 {
     "user_id": "0ae45b27-b306-4271-a85d-02247adb3ee9",
-    "heading": "sdasdqweq",
-    "text": "asdqwe"
+    "post_id": "18a4205b-defb-4422-97b9-bd007a2d0da5"
 }
 

@@ -5,9 +5,10 @@ use GeekBrains\LevelTwo\Blog\Http\ErrorResponse;
 use GeekBrains\LevelTwo\Exceptions\HttpException;
 use GeekBrains\LevelTwo\Blog\Http\Actions\FindByUsername;
 use GeekBrains\LevelTwo\Blog\Http\Actions\Posts\FindById;
+use GeekBrains\LevelTwo\Blog\Http\Actions\Likes\CreateLike;
 use GeekBrains\LevelTwo\Blog\Http\Actions\Posts\CreatePost;
-use GeekBrains\LevelTwo\Blog\Http\Actions\Comments\CreateComment;
 use GeekBrains\LevelTwo\Blog\Http\Actions\Posts\DeletePost;
+use GeekBrains\LevelTwo\Blog\Http\Actions\Comments\CreateComment;
 use GeekBrains\LevelTwo\Blog\Repositories\PostsRepository\SqlitePostsRepository;
 use GeekBrains\LevelTwo\Blog\Repositories\UsersRepository\SqliteUsersRepository;
 use GeekBrains\LevelTwo\Blog\Repositories\CommentsRepository\SqliteCommentsRepository;
@@ -46,6 +47,7 @@ $routes = [
     'POST' => [
         '/posts/create' => CreatePost::class,
         '/posts/comment' => CreateComment::class,
+        '/posts/like' => CreateLike::class,
     ],
     'DELETE' => [
         '/posts' => DeletePost::class,
