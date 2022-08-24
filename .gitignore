@@ -5,3 +5,7 @@
 coverage_report
 
 .vscode
+
+ .env
+
+ rest

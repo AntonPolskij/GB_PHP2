@@ -6,24 +6,31 @@ use PDO;
 use GeekBrains\LevelTwo\Blog\User;
 use GeekBrains\LevelTwo\Blog\UUID;
 use GeekBrains\LevelTwo\Exceptions\UserNotFoundException;
-
+use Psr\Log\LoggerInterface;
 
 class SqliteUsersRepository implements UsersRepositoryInterface
 {
     public function __construct(
-        private PDO $connection
+        private PDO $connection,
+        private LoggerInterface $logger
     ) {
     }
 
     public function save(User $user): void
     {
         $statement = $this->connection->prepare('INSERT INTO users (id, username, first_name, last_name) VALUES (:id, :username, :first_name, :last_name)');
+
+        $userId = (string)$user->getId();
+
         $statement->execute([
             ':username' => $user->getUsername(),
             ':first_name' => $user->getName(),
             ':last_name' => $user->getSurname(),
-            ':id' => (string)$user->getId()
+            ':id' => $userId
         ]);
+
+
+        $this->logger->info("New User UUID:$userId saved in database");
     }
 
     public function getById(UUID $id): User
@@ -38,6 +45,8 @@ class SqliteUsersRepository implements UsersRepositoryInterface
         $result = $statement->fetch(PDO::FETCH_ASSOC);
 
         if (false === $result) {
+
+            $this->logger->warning("Cannot get user: $id");
             throw new UserNotFoundException(
                 "Cannot get user: $id"
             );
@@ -60,6 +69,7 @@ class SqliteUsersRepository implements UsersRepositoryInterface
         ]);
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         if (!$result) {
+            $this->logger->warning("Cannot get user: $username");
             throw new UserNotFoundException("User not found: $username");
         }
         return  new User(

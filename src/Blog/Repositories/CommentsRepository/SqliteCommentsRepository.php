@@ -3,6 +3,7 @@
 namespace GeekBrains\LevelTwo\Blog\Repositories\CommentsRepository;
 
 use PDO;
+use Psr\Log\LoggerInterface;
 use GeekBrains\LevelTwo\Blog\Post;
 use GeekBrains\LevelTwo\Blog\User;
 use GeekBrains\LevelTwo\Blog\UUID;
@@ -12,19 +13,25 @@ use GeekBrains\LevelTwo\Exceptions\CommentNotFoundException;
 class SqliteCommentsRepository implements CommentsRepositoryInterface
 {
     public function __construct(
-        private PDO $connection
+        private PDO $connection,
+        private LoggerInterface $logger
     ) {
     }
 
     public function save(Comment $comment): void
     {
         $statement = $this->connection->prepare('INSERT INTO comments (id, user_id, post_id, text) VALUES (:id, :user_id, :post_id, :text)');
+
+        $commentId = (string)$comment->getId(); 
+
         $statement->execute([
-            ':id' => (string)$comment->getId(),
+            ':id' => $commentId,
             ':user_id' => (string)$comment->getUser_id(),
             ':post_id' => (string)$comment->getPost_id(),
             ':text' => $comment->getText()
         ]);
+
+        $this->logger->info("New Comment UUID:$commentId saved in database");
     }
 
     public function get(UUID $id): ?Comment
@@ -50,6 +57,9 @@ class SqliteCommentsRepository implements CommentsRepositoryInterface
 
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         if (false === $result) {
+
+            $this->logger->warning("Cannot find comment: $id");
+
             throw new CommentNotFoundException(
                 "Cannot find comment: $id"
             );

@@ -12,6 +12,7 @@ use GeekBrains\LevelTwo\Exceptions\UserNotFoundException;
 use GeekBrains\LevelTwo\Blog\Http\Actions\Posts\CreatePost;
 use GeekBrains\LevelTwo\Blog\Repositories\PostsRepository\PostsRepositoryInterface;
 use GeekBrains\LevelTwo\Blog\Repositories\UsersRepository\UsersRepositoryInterface;
+use GeekBrains\LevelTwo\tests\DummyLogger;
 
 class CreatePostActionTest extends TestCase
 {
@@ -34,7 +35,7 @@ class CreatePostActionTest extends TestCase
 
 
 
-        $action = new CreatePost($usersRepository, $postsRepository);
+        $action = new CreatePost($usersRepository, $postsRepository, new DummyLogger);
         $response = $action->handle($request);
         if (!empty($postsRepository)) {
             $this->assertInstanceOf(SuccessfulResponse::class, $response);

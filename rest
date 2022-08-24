@@ -1,7 +1,8 @@
-POST http://127.0.0.1:8000/posts/like
+POST http://127.0.0.1:8000/posts/create
 
 {
-    "user_id": "0ae45b27-b306-4271-a85d-02247adb3ee9",
-    "post_id": "18a4205b-defb-4422-97b9-bd007a2d0da5"
+    "user_id": "79de9255-97cb-423b-ba32-5d9a92a46afd",
+    "heading": "IVAN",
+    "text": "baran2.0"
 }
 

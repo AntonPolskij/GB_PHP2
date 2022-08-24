@@ -2,6 +2,7 @@
 
 namespace GeekBrains\LevelTwo\Blog\Repositories\LikesRepository;
 
+use Psr\Log\LoggerInterface;
 use GeekBrains\LevelTwo\Blog\Like;
 use GeekBrains\LevelTwo\Blog\UUID;
 use GeekBrains\LevelTwo\Exceptions\LikeAlreadyExists;
@@ -11,7 +12,8 @@ use GeekBrains\LevelTwo\Blog\Repositories\LikesRepository\LikesRepositoryInterfa
 class SqliteLikesRepository implements LikesRepositoryInterface
 {
     public function __construct(
-        private \PDO $pdo
+        private \PDO $pdo,
+        private LoggerInterface $logger
     )
     {
         
@@ -21,11 +23,15 @@ class SqliteLikesRepository implements LikesRepositoryInterface
     {
         $statement = $this->pdo->prepare('INSERT INTO likes (id, user_id, post_id) VALUES (:id, :user_id, :post_id)');
 
+        $likeId = (string)$like;
+
         $statement->execute([
-            ':id' => (string)$like,
+            ':id' => $likeId,
             'user_id' => (string)$like->getUser()->getId(),
             'post_id' => (string)$like->getPost()->getId(),
         ]);
+
+        $this->logger->info("New Like UUID:$likeId saved in database");
     }
 
     /**
@@ -41,6 +47,7 @@ class SqliteLikesRepository implements LikesRepositoryInterface
         $result = $statement->fetchAll();
 
         if (!$result) {
+            $this->logger->warning("Like not found to post" . $id);
             throw new LikeNotFoundException(
                 'Like not found to post' . $id
             );
@@ -64,6 +71,7 @@ class SqliteLikesRepository implements LikesRepositoryInterface
         $isExisted = $statement->fetch();
 
         if($isExisted){
+            $this->logger->warning("The users like for this post already exists");
             throw new LikeAlreadyExists(
                 'The users like for this post already exists'
             );
