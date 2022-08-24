@@ -1,0 +1,8 @@
+POST http://127.0.0.1:8000/posts/create
+
+{
+    "user_id": "79de9255-97cb-423b-ba32-5d9a92a46afd",
+    "heading": "IVAN",
+    "text": "baran2.0"
+}
+
