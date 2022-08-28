@@ -11,7 +11,7 @@ use GeekBrains\LevelTwo\Exceptions\HttpException;
 use GeekBrains\LevelTwo\Exceptions\UserNotFoundException;
 use GeekBrains\LevelTwo\Blog\Repositories\UsersRepository\UsersRepositoryInterface;
 
-class JsonBodyUuidIdentification implements IdentificationInterface
+class PasswordAuthentication implements PasswordAuthenticationInterface
 {
     public function __construct(
         private UsersRepositoryInterface $usersRepository
@@ -22,17 +22,28 @@ class JsonBodyUuidIdentification implements IdentificationInterface
         try {
 
             $username = $request->jsonBodyField('username');
-
         } catch (HttpException | InvalidArgumentException $e) {
 
             throw new AuthException($e->getMessage());
         }
         try {
 
-            return $this->usersRepository->getByUsername($username);
+            $user = $this->usersRepository->getByUsername($username);
         } catch (UserNotFoundException $e) {
 
             throw new AuthException($e->getMessage());
         }
+        try {
+            $password = $request->jsonBodyField('password');
+        } catch (HttpException $e) {
+            throw new AuthException($e->getMessage());
+        }   
+
+        if (!$user->checkPassword($password)) {
+            // Если пароли не совпадают — бросаем исключение
+            throw new AuthException('Wrong password');
+        }
+        // Пользователь аутентифицирован
+        return $user;
     }
 }

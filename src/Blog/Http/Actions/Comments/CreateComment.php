@@ -2,18 +2,19 @@
 
 namespace GeekBrains\LevelTwo\Blog\Http\Actions\Comments;
 
-use GeekBrains\LevelTwo\Blog\Comment;
 use GeekBrains\LevelTwo\Blog\Post;
-use GeekBrains\LevelTwo\Blog\Http\ErrorResponse;
-use GeekBrains\LevelTwo\Blog\Http\SuccessfulResponse;
-use GeekBrains\LevelTwo\Blog\Repositories\PostsRepository\PostsRepositoryInterface;
-use GeekBrains\LevelTwo\Blog\Repositories\UsersRepository\UsersRepositoryInterface;
 use GeekBrains\LevelTwo\Blog\UUID;
-use GeekBrains\LevelTwo\Exceptions\HttpException;
-
-use GeekBrains\LevelTwo\Blog\Http\Actions\ActionInterface;
+use GeekBrains\LevelTwo\Blog\Comment;
 use GeekBrains\LevelTwo\Blog\Http\Request;
 use GeekBrains\LevelTwo\Blog\Http\Response;
+use GeekBrains\LevelTwo\Blog\Http\ErrorResponse;
+use GeekBrains\LevelTwo\Exceptions\HttpException;
+use GeekBrains\LevelTwo\Blog\Http\SuccessfulResponse;
+
+use GeekBrains\LevelTwo\Blog\Http\Actions\ActionInterface;
+use GeekBrains\LevelTwo\Blog\Http\Auth\TokenAuthenticationInterface;
+use GeekBrains\LevelTwo\Blog\Repositories\PostsRepository\PostsRepositoryInterface;
+use GeekBrains\LevelTwo\Blog\Repositories\UsersRepository\UsersRepositoryInterface;
 use GeekBrains\LevelTwo\Blog\Repositories\CommentsRepository\CommentsRepositoryInterface;
 
 class CreateComment implements ActionInterface
@@ -22,12 +23,15 @@ class CreateComment implements ActionInterface
         private UsersRepositoryInterface $usersRepository,
         private PostsRepositoryInterface $postRepository,
         private CommentsRepositoryInterface $commentRepository,
+        private TokenAuthenticationInterface $authentication,
     ) {
     }
 
     public function handle(Request $request): Response
     {
         try {
+            $user = $this->authentication->user($request);
+
             $postId = new UUID($request->jsonBodyField('post_id'));
             $post = $this->postRepository->get($postId);
 

@@ -12,6 +12,7 @@ use GeekBrains\LevelTwo\Blog\Http\ErrorResponse;
 use GeekBrains\LevelTwo\Exceptions\HttpException;
 use GeekBrains\LevelTwo\Blog\Http\SuccessfulResponse;
 use GeekBrains\LevelTwo\Blog\Http\Actions\ActionInterface;
+use GeekBrains\LevelTwo\Blog\Http\Auth\TokenAuthenticationInterface;
 use GeekBrains\LevelTwo\Blog\Repositories\LikesRepository\LikesRepositoryInterface;
 use GeekBrains\LevelTwo\Blog\Repositories\PostsRepository\PostsRepositoryInterface;
 use GeekBrains\LevelTwo\Blog\Repositories\UsersRepository\UsersRepositoryInterface;
@@ -22,12 +23,15 @@ class CreateLike implements ActionInterface
         private LikesRepositoryInterface $likesRepo,
         private UsersRepositoryInterface $usersRepo,
         private PostsRepositoryInterface $postsRepo,
+        private TokenAuthenticationInterface $authentication,
     ) {
     }
 
     public function handle(Request $request): Response
     {
         try {
+            $user = $this->authentication->user($request);
+
             $postId = $request->jsonBodyField('post_id');
             $userId = $request->jsonBodyField('user_id');
         } catch (HttpException $e) {

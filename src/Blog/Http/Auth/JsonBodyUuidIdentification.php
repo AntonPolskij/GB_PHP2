@@ -10,7 +10,7 @@ use GeekBrains\LevelTwo\Exceptions\HttpException;
 use GeekBrains\LevelTwo\Exceptions\UserNotFoundException;
 use GeekBrains\LevelTwo\Blog\Repositories\UsersRepository\UsersRepositoryInterface;
 
-class JsonBodyUuidIdentification implements IdentificationInterface
+class JsonBodyUuidIdentification implements AuthenticationInterface
 {
 public function __construct(
 private UsersRepositoryInterface $usersRepository

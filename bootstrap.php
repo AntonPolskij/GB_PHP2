@@ -5,8 +5,12 @@ use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 use Monolog\Handler\StreamHandler;
 use GeekBrains\LevelTwo\Blog\Container\DIContainer;
-use GeekBrains\LevelTwo\Blog\Http\Auth\IdentificationInterface;
+use GeekBrains\LevelTwo\Blog\Http\Auth\PasswordAuthentication;
+use GeekBrains\LevelTwo\Blog\Http\Auth\AuthenticationInterface;
+use GeekBrains\LevelTwo\Blog\Http\Auth\BearerTokenAuthentication;
 use GeekBrains\LevelTwo\Blog\Http\Auth\JsonBodyUuidIdentification;
+use GeekBrains\LevelTwo\Blog\Http\Auth\TokenAuthenticationInterface;
+use GeekBrains\LevelTwo\Blog\Http\Auth\PasswordAuthenticationInterface;
 use GeekBrains\LevelTwo\Blog\Repositories\LikesRepository\SqliteLikesRepository;
 use GeekBrains\LevelTwo\Blog\Repositories\PostsRepository\SqlitePostsRepository;
 use GeekBrains\LevelTwo\Blog\Repositories\UsersRepository\SqliteUsersRepository;
@@ -14,7 +18,9 @@ use GeekBrains\LevelTwo\Blog\Repositories\LikesRepository\LikesRepositoryInterfa
 use GeekBrains\LevelTwo\Blog\Repositories\PostsRepository\PostsRepositoryInterface;
 use GeekBrains\LevelTwo\Blog\Repositories\UsersRepository\UsersRepositoryInterface;
 use GeekBrains\LevelTwo\Blog\Repositories\CommentsRepository\SqliteCommentsRepository;
+use GeekBrains\LevelTwo\Blog\Repositories\TokensRepository\SqliteAuthTokensRepository;
 use GeekBrains\LevelTwo\Blog\Repositories\CommentsRepository\CommentsRepositoryInterface;
+use GeekBrains\LevelTwo\Blog\Repositories\TokensRepository\AuthTokensRepositoryInterface;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -79,6 +85,26 @@ $container->bind(
     IdentificationInterface::class,
     JsonBodyUuidIdentification::class
 );
+
+// $container->bind(
+//     AuthenticationInterface::class,
+//     PasswordAuthentication::class
+// );
+
+$container->bind(
+    PasswordAuthenticationInterface::class,
+    PasswordAuthentication::class
+);
+$container->bind(
+    AuthTokensRepositoryInterface::class,
+    SqliteAuthTokensRepository::class
+);
+
+$container->bind(
+    TokenAuthenticationInterface::class,
+    BearerTokenAuthentication::class
+);
+
 
 
 // $container->bind(

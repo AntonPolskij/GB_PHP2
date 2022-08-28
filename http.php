@@ -1,15 +1,16 @@
 <?php
 
+use Psr\Log\LoggerInterface;
 use GeekBrains\LevelTwo\Blog\Http\Request;
+use GeekBrains\LevelTwo\Blog\Http\Auth\LogIn;
 use GeekBrains\LevelTwo\Blog\Http\ErrorResponse;
 use GeekBrains\LevelTwo\Exceptions\HttpException;
 use GeekBrains\LevelTwo\Blog\Http\Actions\FindByUsername;
 use GeekBrains\LevelTwo\Blog\Http\Actions\Likes\CreateLike;
 use GeekBrains\LevelTwo\Blog\Http\Actions\Posts\CreatePost;
+
 use GeekBrains\LevelTwo\Blog\Http\Actions\Posts\DeletePost;
 use GeekBrains\LevelTwo\Blog\Http\Actions\Comments\CreateComment;
-
-use Psr\Log\LoggerInterface;
 
 $container = require __DIR__ . '/bootstrap.php';
 
@@ -46,6 +47,7 @@ $routes = [
         '/users/show' => FindByUsername::class
     ],
     'POST' => [
+        '/login' => LogIn::class,
         '/posts/create' => CreatePost::class,
         '/posts/comment' => CreateComment::class,
         '/posts/like' => CreateLike::class,

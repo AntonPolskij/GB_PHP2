@@ -12,7 +12,9 @@ use GeekBrains\LevelTwo\Exceptions\HttpException;
 
 use GeekBrains\LevelTwo\Blog\Http\SuccessfulResponse;
 use GeekBrains\LevelTwo\Blog\Http\Actions\ActionInterface;
+use GeekBrains\LevelTwo\Blog\Http\Auth\AuthenticationInterface;
 use GeekBrains\LevelTwo\Blog\Http\Auth\IdentificationInterface;
+use GeekBrains\LevelTwo\Blog\Http\Auth\TokenAuthenticationInterface;
 use GeekBrains\LevelTwo\Blog\Repositories\PostsRepository\PostsRepositoryInterface;
 use GeekBrains\LevelTwo\Blog\Repositories\UsersRepository\UsersRepositoryInterface;
 
@@ -21,7 +23,7 @@ class CreatePost implements ActionInterface
     public function __construct(
         // private UsersRepositoryInterface $usersRepository,
         private PostsRepositoryInterface $postRepository,
-        private IdentificationInterface $identification,
+        private TokenAuthenticationInterface $authentication,
         private LoggerInterface $logger
     ) {
     }
@@ -32,7 +34,7 @@ class CreatePost implements ActionInterface
             // $userId = new UUID($request->jsonBodyField('user_id'));
             // $user = $this->usersRepository->getById($userId);
 
-            $user = $this->identification->user($request);
+            $user = $this->authentication->user($request);
 
             $newPostId = UUID::random();
 
