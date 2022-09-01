@@ -2,7 +2,11 @@
 
 use Dotenv\Dotenv;
 use Monolog\Logger;
+use Faker\Provider\Lorem;
+use Faker\Provider\Person;
+use Faker\Provider\Internet;
 use Psr\Log\LoggerInterface;
+use Faker\Provider\ru_RU\Text;
 use Monolog\Handler\StreamHandler;
 use GeekBrains\LevelTwo\Blog\Container\DIContainer;
 use GeekBrains\LevelTwo\Blog\Http\Auth\PasswordAuthentication;
@@ -103,6 +107,19 @@ $container->bind(
 $container->bind(
     TokenAuthenticationInterface::class,
     BearerTokenAuthentication::class
+);
+
+$faker = new \Faker\Generator();
+// Инициализируем необходимые нам виды данных
+$faker->addProvider(new Person($faker));
+$faker->addProvider(new Text($faker));
+$faker->addProvider(new Internet($faker));
+$faker->addProvider(new Lorem($faker));
+// Добавляем генератор тестовых данных
+// в контейнер внедрения зависимостей
+$container->bind(
+    \Faker\Generator::class,
+    $faker
 );
 
 
