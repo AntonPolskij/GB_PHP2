@@ -1,0 +1,8 @@
+POST http://127.0.0.1:8000/posts/comment
+Authorization: Bearer 4340e9a1bb22370d9cd4e855580e683f63eb09de389dd4189092484acce1bbbb0ce22f07df431770
+
+{
+    "user_id": "a5b9b873-7742-4ced-bc29-3eaaaf7b2630",
+    "post_id": "d3800f49-398c-4b4e-955b-0adddd404aa9",
+    "text": "some text"
+}
